@@ -1,0 +1,13 @@
+db.url=
+db.login=
+db.password=
+db.name=
+
+smtp.protocol=
+smtp.host=
+smtp.port=
+smtp.login=
+smtp.password=
+
+smtp.from=
+smtp.to=

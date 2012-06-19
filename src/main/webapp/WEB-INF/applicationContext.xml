@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    <context:annotation-config />
+    <context:property-placeholder location="backup.properties" />
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${smtp.host}"/>
+        <property name="username" value="${smtp.login}"/>
+        <property name="password" value="${smtp.password}"/>
+        <property name="port" value="${smtp.port}"/>
+        <property name="protocol" value="${smtp.protocol}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtps.auth">true</prop>
+                <prop key="mail.smtps.starttls.enable">true</prop>
+                <prop key="mail.smtps.debug">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="backupDatabase" class="org.bouil.phpmyadmin.backup.BackupDatabase">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="phpMyAdminUrl"
+                  value="${db.url}"/>
+        <property name="login" value="${db.login}"/>
+        <property name="password" value="${db.password}"/>
+        <property name="database" value="${db.name}"/>
+
+        <property name="from" value="${smtp.from}" />
+        <property name="to" value="${smtp.to}" />
+    </bean>
+
+    <task:annotation-driven executor="myExecutor" scheduler="myScheduler"/>
+
+    <task:executor id="myExecutor" pool-size="2"/>
+
+    <task:scheduler id="myScheduler" pool-size="2"/>
+</beans>
