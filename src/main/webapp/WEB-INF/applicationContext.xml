@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
     <context:annotation-config />
-    <context:property-placeholder location="backup.properties" />
+    <context:property-placeholder location="backup.properties" ignore-unresolvable="true" />
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${smtp.host}"/>
@@ -37,6 +37,9 @@
 
         <property name="from" value="${smtp.from}" />
         <property name="to" value="${smtp.to}" />
+
+        <property name="httpUser" value="${http.user}" />
+        <property name="httpPassword" value="${http.password}" />
     </bean>
 
     <task:annotation-driven executor="myExecutor" scheduler="myScheduler"/>

@@ -1,6 +1,11 @@
+# leave empty if not HTTP BASIC auth
+http.user=
+http.password=
+
 db.url=
 db.login=
 db.password=
+# leave empty to skip database selection (backup all databases)
 db.name=
 
 smtp.protocol=
@@ -10,4 +15,5 @@ smtp.login=
 smtp.password=
 
 smtp.from=
+# leave empty to skip email sending. Backup file will be just logged to System.out
 smtp.to=
